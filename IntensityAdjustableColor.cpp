@@ -1,22 +1,22 @@
 #include "Arduino.h"
 #include "IntensityAdjustableColor.h"
 
-IntensityAdjustableColor::IntensityAdjustableColor(const RGB* color_levels, unsigned char num_colors) {
-    this->color_levels = color_levels;
-    this->num_colors = num_colors;
-    this->current_color = color_levels;
+IntensityAdjustableColor::IntensityAdjustableColor(const RGB* colorLevels, unsigned char numColors) {
+    this->colorLevels = colorLevels;
+    this->numColors = numColors;
+    this->currentColor = colorLevels;
 }
 
 RGB IntensityAdjustableColor::getRgb() const {
-    return *current_color;
+    return *currentColor;
 }
 
 void IntensityAdjustableColor::setNextBrightness(){
-    RGB* end = (long)color_levels + sizeof(RGB) * (num_colors - 1);
-    if (current_color >= end){
+    RGB* end = (long)colorLevels + sizeof(RGB) * (numColors - 1);
+    if (currentColor >= end){
         Serial.println("here");
-        current_color = color_levels;
+        currentColor = colorLevels;
     } else {
-        current_color += 1;
+        currentColor += 1;
     }
 }

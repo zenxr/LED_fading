@@ -11,14 +11,14 @@ struct RGB {
 
 class IntensityAdjustableColor {
 public:
-    IntensityAdjustableColor(const RGB* color_levels, unsigned char num_colors);
+    IntensityAdjustableColor(const RGB* colorLevels, unsigned char numColors);
     IntensityAdjustableColor();
     void setNextBrightness();
     RGB getRgb() const;
 private:
-    unsigned char num_colors;
-    const RGB* color_levels;
-    RGB* current_color;
+    unsigned char numColors;
+    const RGB* colorLevels;
+    RGB* currentColor;
 };
 
 #endif

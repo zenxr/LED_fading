@@ -19,9 +19,9 @@ private:
     void addColor(IntensityAdjustableColor& color);
 
     IntensityAdjustableColor* colors[MAX_COLORS];
-    unsigned char len_colors;
-    IntensityAdjustableColor* current_color;
-    unsigned char current_color_idx;
+    unsigned char lenColors;
+    IntensityAdjustableColor* currentColor;
+    unsigned char currentColrIdx;
 };
 
 #endif

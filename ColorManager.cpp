@@ -30,33 +30,33 @@ IntensityAdjustableColor YELLOW_ADJUSTABLE = IntensityAdjustableColor(YELLOW, si
 
 ColorManager::ColorManager()
 {
-    len_colors = 0;
+    lenColors = 0;
     addColor(RED_ADJUSTABLE);
     addColor(WHITE_ADJUSTABLE);
     addColor(YELLOW_ADJUSTABLE);
-    current_color = *colors;
-    current_color_idx = 0;
+    currentColor = *colors;
+    currentColrIdx = 0;
 }
 
 RGB ColorManager::getRgb() const{
-    return current_color->getRgb();
+    return currentColor->getRgb();
 }
 
 void ColorManager::setNextColor(){
-    if (&colors[current_color_idx] >= &colors[len_colors - 1]){
-      current_color = colors[0];
-      current_color_idx = 0;
+    if (&colors[currentColrIdx] >= &colors[lenColors - 1]){
+      currentColor = colors[0];
+      currentColrIdx = 0;
     } else {
-      current_color_idx += 1;
-      current_color = colors[current_color_idx];
+      currentColrIdx += 1;
+      currentColor = colors[currentColrIdx];
     }
 }
 
 void ColorManager::setNextBrightness(){
-    current_color->setNextBrightness();
+    currentColor->setNextBrightness();
 }
 
 void ColorManager::addColor(IntensityAdjustableColor& color){
-    len_colors += 1;
-    colors[len_colors - 1] = &color;
+    lenColors += 1;
+    colors[lenColors - 1] = &color;
 }
