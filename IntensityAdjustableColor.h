@@ -18,7 +18,7 @@ public:
 private:
     unsigned char num_colors;
     const RGB* color_levels;
-    RGB current_color;
+    RGB* current_color;
 };
 
 #endif

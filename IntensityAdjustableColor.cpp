@@ -4,18 +4,19 @@
 IntensityAdjustableColor::IntensityAdjustableColor(const RGB* color_levels, unsigned char num_colors) {
     this->color_levels = color_levels;
     this->num_colors = num_colors;
-    this->current_color = *color_levels;
+    this->current_color = color_levels;
 }
 
 RGB IntensityAdjustableColor::getRgb() const {
-    return current_color;
+    return *current_color;
 }
 
 void IntensityAdjustableColor::setNextBrightness(){
-    const RGB* end = color_levels + sizeof(RGB) * num_colors;
-    if (&current_color == end){
-        current_color = *color_levels;
+    RGB* end = (long)color_levels + sizeof(RGB) * (num_colors - 1);
+    if (current_color >= end){
+        Serial.println("here");
+        current_color = color_levels;
     } else {
-        current_color = static_cast<RGB>(*(&current_color + sizeof(RGB)));
+        current_color += 1;
     }
 }

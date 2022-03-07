@@ -11,9 +11,10 @@
 #define BLUE_LED 6
 
 ColorManager colorMgr = ColorManager();
-const int waitingMs = 300; // .3 seconds
+const int waitingMs = 250; // .3 seconds
 unsigned long previousMillis = 0;
 bool shouldReadSwitches = false;
+bool shouldPrintColors = false;
 
 void setup() {
     // switches to control brightness and color
@@ -30,29 +31,46 @@ void setup() {
 // the loop function runs over and over again forever
 void loop() {
     unsigned long currentMillis = millis();
+    writeLEDs();
+    checkSwitches(currentMillis);
+    
+}
 
+void writeLEDs(){
     RGB currentColor = colorMgr.getRgb();
     analogWrite(RED_LED, currentColor.r);
     analogWrite(GREEN_LED, currentColor.g);
     analogWrite(BLUE_LED, currentColor.b);
-
-    if (currentMillis - previousMillis >= waitingMs){
-        previousMillis = currentMillis;
-        int bs = digitalRead(BRIGHTNESS_SWITCH);
-        int cs = digitalRead(COLOR_SWITCH);
-        if (bs == LOW)
-        {
-            Serial.println("brightness switch");
-            colorMgr.setNextBrightness();
-        }
-        if (cs == LOW){
-            Serial.println("color switch");
-            colorMgr.setNextColor();
-        }
+    if (shouldPrintColors){
+      Serial.print(currentColor.r);
+      Serial.print("\t");
+      Serial.print(currentColor.g);
+      Serial.print("\t");
+      Serial.print(currentColor.b);
+      Serial.print("\n");
+      shouldPrintColors = false;
     }
 }
 
 // read switch inputs based on frequency
-void readSwitches() {
-  
+void checkSwitches(unsigned long currentMillis) {
+    if (currentMillis - previousMillis >= waitingMs){
+        previousMillis = currentMillis;
+        shouldReadSwitches = true;
+    }
+    if (shouldReadSwitches) {
+        int bs = digitalRead(BRIGHTNESS_SWITCH);
+        int cs = digitalRead(COLOR_SWITCH);
+        if (bs == LOW){
+          Serial.println("brightness switch");
+          colorMgr.setNextBrightness();
+          shouldPrintColors = true;
+        }
+        if (cs == LOW){
+          Serial.println("color switch");
+          colorMgr.setNextColor();
+          shouldPrintColors = true;
+        }
+        shouldReadSwitches = false;
+    }
 }

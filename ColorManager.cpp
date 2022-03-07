@@ -35,6 +35,7 @@ ColorManager::ColorManager()
     addColor(WHITE_ADJUSTABLE);
     addColor(YELLOW_ADJUSTABLE);
     current_color = *colors;
+    current_color_idx = 0;
 }
 
 RGB ColorManager::getRgb() const{
@@ -42,11 +43,12 @@ RGB ColorManager::getRgb() const{
 }
 
 void ColorManager::setNextColor(){
-    const IntensityAdjustableColor* end = colors[0] + sizeof(IntensityAdjustableColor) * len_colors;
-    if (current_color == end){
-        current_color = *colors;
+    if (&colors[current_color_idx] >= &colors[len_colors - 1]){
+      current_color = colors[0];
+      current_color_idx = 0;
     } else {
-        current_color = static_cast<IntensityAdjustableColor *>(current_color + sizeof(IntensityAdjustableColor));
+      current_color_idx += 1;
+      current_color = colors[current_color_idx];
     }
 }
 
