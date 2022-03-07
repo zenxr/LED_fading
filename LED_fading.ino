@@ -11,13 +11,14 @@
 #define BLUE_LED 6
 
 ColorManager colorMgr = ColorManager();
-const int waitingMs = 200; // .2 seconds
+const int waitingMs = 300; // .3 seconds
 unsigned long previousMillis = 0;
+bool shouldReadSwitches = false;
 
 void setup() {
     // switches to control brightness and color
-    pinMode(BRIGHTNESS_SWITCH, INPUT);
-    pinMode(COLOR_SWITCH, INPUT);
+    pinMode(BRIGHTNESS_SWITCH, INPUT_PULLUP);
+    pinMode(COLOR_SWITCH, INPUT_PULLUP);
     // RGB LED pins
     pinMode(RED_LED, OUTPUT);
     pinMode(GREEN_LED, OUTPUT);
@@ -39,14 +40,19 @@ void loop() {
         previousMillis = currentMillis;
         int bs = digitalRead(BRIGHTNESS_SWITCH);
         int cs = digitalRead(COLOR_SWITCH);
-        if (bs == HIGH)
+        if (bs == LOW)
         {
             Serial.println("brightness switch");
             colorMgr.setNextBrightness();
         }
-        if (cs == HIGH){
+        if (cs == LOW){
             Serial.println("color switch");
             colorMgr.setNextColor();
         }
     }
+}
+
+// read switch inputs based on frequency
+void readSwitches() {
+  
 }
