@@ -1,5 +1,8 @@
 /*
     Author: Cody Stephenson
+
+    This project's code is intended to drive the function of RGB strips.
+    BRIGHTNESS_SWITCH and COLOR_SWITCH pins toggle through brightness and color settings.
 */
 #include "ColorManager.h"
 
@@ -11,13 +14,14 @@
 #define BLUE_LED 6
 
 ColorManager colorMgr = ColorManager();
-const int waitingMs = 250; // .3 seconds
+const int waitingMs = 250; // .25 seconds
 unsigned long previousMillis = 0;
 bool shouldReadSwitches = false;
 bool shouldPrintColors = false;
 
 void setup() {
     // switches to control brightness and color
+    // using pullup mode to take advantage of builtin pullup resistors
     pinMode(BRIGHTNESS_SWITCH, INPUT_PULLUP);
     pinMode(COLOR_SWITCH, INPUT_PULLUP);
     // RGB LED pins
@@ -33,7 +37,6 @@ void loop() {
     unsigned long currentMillis = millis();
     writeLEDs();
     checkSwitches(currentMillis);
-    
 }
 
 void writeLEDs(){
@@ -62,12 +65,10 @@ void checkSwitches(unsigned long currentMillis) {
         int bs = digitalRead(BRIGHTNESS_SWITCH);
         int cs = digitalRead(COLOR_SWITCH);
         if (bs == LOW){
-          Serial.println("brightness switch");
           colorMgr.setNextBrightness();
           shouldPrintColors = true;
         }
         if (cs == LOW){
-          Serial.println("color switch");
           colorMgr.setNextColor();
           shouldPrintColors = true;
         }
